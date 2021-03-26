@@ -33,7 +33,7 @@ module.exports = function(app,swig) {
 
         });
         res.send(respuesta);
-    })
+    });
 
     app.get('/canciones/:id', function(req, res) {
         let respuesta = 'id: ' + req.params.id;
