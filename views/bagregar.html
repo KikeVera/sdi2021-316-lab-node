@@ -14,14 +14,10 @@
         <label class="control-label col-sm-2" for="genero">Genero:</label>
         <div class="col-sm-10">
             <select class="form-control" name="genero" required="true">
-                <option value="pop">Pop</option>
-                <option value="folk">Folk</option>
-                <option value="rock">Rock</option>
-                <option value="reagge">Reagge</option>
-                <option value="rap">Hip-hop Rap</option>
-                <option value="latino">Latino</option>
-                <option value="blues">Blues</option>
-                <option value="otros">Otros</option>
+                {% for genero in generos %}
+                <option value={{genero}}>{{genero}}</option>
+
+                {% endfor %}
             </select>
         </div>
     </div>

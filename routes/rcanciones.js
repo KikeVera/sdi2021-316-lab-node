@@ -29,7 +29,9 @@ module.exports = function(app,swig) {
     });
 
     app.get('/canciones/agregar', function (req, res) {
+        let generos=["pop","golk","rock","reaggue","rap", "latino","blues","otros"];
         let respuesta = swig.renderFile('views/bagregar.html', {
+            generos:generos
 
         });
         res.send(respuesta);

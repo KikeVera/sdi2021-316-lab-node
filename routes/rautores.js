@@ -5,7 +5,9 @@ module.exports = function(app,swig) {
     });
 
     app.get('/autores/agregar', function (req, res) {
+        let roles=["Cantante","Batería","Guitarrista","Bajista","Teclista"];
         let respuesta = swig.renderFile('views/autores-agregar.html', {
+            roles:roles
 
         });
         res.send(respuesta);
@@ -37,22 +39,24 @@ module.exports = function(app,swig) {
 
     app.get("/autores/", function(req, res) {
 
+
+
         let autores =[
             {
                 "nombre" : "Brad Delson",
                 "grupo" : "Linkin Park",
-                "rol" : "guitarrista"
+                "rol" : "Guitarrista"
             },
             {
                 "nombre" : "Mike Dirnt ",
                 "grupo" : "Green day",
-                "rol" : "bajista"
+                "rol" : "Bajista"
             },
 
             {
                 "nombre" : "Dexter Holland ",
                 "grupo" : "The Offspring",
-                "rol" : "cantante"
+                "rol" : "Cantante"
             }
         ];
         let i=0;
