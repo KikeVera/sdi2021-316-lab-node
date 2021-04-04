@@ -1,6 +1,9 @@
 let express=require('express');
 let app=express();
 let swig = require('swig');
+let crypto = require('crypto');
+app.set('clave','abcdefg');
+app.set('crypto',crypto);
 
 let fileUpload = require('express-fileupload');
 app.use(fileUpload());
@@ -14,6 +17,14 @@ let gestorBD = require("./modules/gestorBD.js");
 gestorBD.init(app,mongo);
 
 app.use(express.static('public'));
+
+let expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'abcdefg',
+    resave: true,
+    saveUninitialized: true
+}));
+
 
 
 
