@@ -20,7 +20,7 @@ module.exports = function(app,swig,gestorBD) {
             if (id == null){
                 res.send("Error al insertar el usuario");
             } else {
-                res.send('Usuario Insertado ' + id);
+                res.redirect('/tienda');
             }
         });
     });
@@ -40,10 +40,10 @@ module.exports = function(app,swig,gestorBD) {
         gestorBD.obtenerUsuarios(criterio, function(usuarios) {
             if (usuarios == null || usuarios.length == 0) {
                 req.session.usuario = null;
-                res.send("No identificado: ");
+                res.redirect('/identificarse');;
             } else {
                 req.session.usuario = usuarios[0].email;
-                res.send("identificado");
+                res.redirect('/tienda');
             }
         });
     });

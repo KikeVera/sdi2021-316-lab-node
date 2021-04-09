@@ -37,6 +37,7 @@ routerUsuarioSession.use(function(req, res, next) {
 });
 //Aplicar routerUsuarioSession
 app.use("/canciones/agregar",routerUsuarioSession);
+app.use("/comentarios",routerUsuarioSession);
 app.use("/publicaciones",routerUsuarioSession);
 
 //routerAudios
@@ -79,6 +80,7 @@ app.set('db','mongodb://admin:19111996@tiendademusica-shard-00-00.ixolh.mongodb.
 require("./routes/rusuarios.js")(app,swig,gestorBD); // (app, param1, param2, etc.)
 require("./routes/rcanciones.js")(app,swig,gestorBD); // (app, param1, param2, etc.)
 require("./routes/rautores.js")(app,swig,gestorBD); // (app, param1, param2, etc.)
+require("./routes/rcomentarios.js")(app,swig,gestorBD); // (app, param1, param2, etc.)
 
 
 

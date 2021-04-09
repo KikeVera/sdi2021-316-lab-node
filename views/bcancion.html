@@ -20,38 +20,36 @@
 	  
 	 <!-- -->
 	 <div class="row" style="margin-top: 20px;" >
+		 {% for comentario in comentarios %}
 		<div class="media col-xs-10">
 			  <div class="media-left media-middle">
 				<a href="#">
-				  <img class="media-object" src="img/user.png" >
+				  <img class="media-object" src="/img/user.png" >
 				</a>
 			  </div>
 			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+				<h4 class="media-heading"> {{ comentario.autor }}</h4>
+				  <p>{{ comentario.texto}}</p>
+
 			  </div>
 		  </div>
-		<div class="media col-xs-10">
-			  <div class="media-left media-middle">
-				<a href="#">
-				  <img class="media-object" src="img/user.png" >
-				</a>
-			  </div>
-			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-		  </div>
-		<div class="media col-xs-10">
-			  <div class="media-left media-middle">
-				<a href="#">
-				  <img class="media-object" src="img/user.png" >
-				</a>
-			  </div>
-			  <div class="media-body">
-				<h4 class="media-heading">Middle aligned media</h4>
-				Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-			  </div>
-		  </div>
+		 {% endfor %}
 	  </div>
+
+<h2>Comentar</h2>
+<form class="form-horizontal" method="post" action="/comentarios/{{ cancion._id.toString() }}" encType="multipart/form-data">
+	<div class="form-group">
+		<label class="control-label col-sm-2" for="texto">Texto:</label>
+		<div class="col-sm-10">
+			<input type="text" class="form-control" name="texto"
+				   placeholder="Texto del comentario" required="true" />
+		</div>
+	</div>
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary">Comentar</button>
+		</div>
+	</div>
+
+</form>
 {% endblock %}
