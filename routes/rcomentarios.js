@@ -23,4 +23,34 @@ module.exports = function(app,swig,gestorBD) {
 
     });
 
+    app.get('/comentarios/borrar/:id', function(req, res) {
+        let criterio = { "_id" : gestorBD.mongo.ObjectID(req.params.id) };
+        // Conectarse
+
+        gestorBD.obtenerComentarios(criterio, function(comentarios){
+            if (comentarios == null) {
+
+                res.send("Error al recuperar el comentario.");
+            } else {
+                gestorBD.borrarComentario(criterio,function(id){
+
+                    if ( id == null ){
+                        res.send("Error al borrar comentario");
+                    }
+
+                    else {
+
+                        res.redirect('/cancion/' + comentarios[0].cancion_id.toString());
+                    }
+
+                });
+
+
+
+            }
+        });
+
+
+    });
+
 };

@@ -58,7 +58,22 @@ routerAudios.use(function(req, res, next) {
 //Aplicar routerAudios
 app.use("/audios/",routerAudios);
 
+let routerComentarios = express.Router();
+routerComentarios.use(function(req, res, next) {
+    console.log("routerAudios");
+    let path = require('path');
+    let idComentario = path.basename(req.originalUrl, '');
+    gestorBD.obtenerComentarios(
+        {"_id": mongo.ObjectID(idComentario) }, function (comentarios) {
+            if(req.session.usuario && comentarios[0].autor == req.session.usuario ){
+                next();
+            } else {
+                res.redirect("/cancion/" + comentarios[0].cancion_id.toString());
+            }
+        })
+});
 
+app.use("/comentarios/borrar",routerComentarios);
 
 
 

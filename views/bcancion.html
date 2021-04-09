@@ -32,6 +32,10 @@
 				  <p>{{ comentario.texto}}</p>
 
 			  </div>
+			<div>
+				<a href="/comentarios/borrar/{{comentario._id.toString() }}"><span>Eliminar comentario</span></a>
+
+			</div>
 		  </div>
 		 {% endfor %}
 	  </div>
@@ -50,6 +54,8 @@
 			<button type="submit" class="btn btn-primary">Comentar</button>
 		</div>
 	</div>
+
+
 
 </form>
 {% endblock %}
