@@ -1,5 +1,7 @@
 let express=require('express');
 let app=express();
+let fs = require('fs');
+let https = require('https');
 let swig = require('swig');
 let crypto = require('crypto');
 app.set('clave','abcdefg');
@@ -141,7 +143,18 @@ app.get('/', function (req, res) {
     res.redirect('/tienda');
 })
 
-app.listen(app.get('port'), function(){
-    console.log("Servidor activo");
+app.use(function(err,req,res,next){
+    console.log("Error producido: "+err)
+    if(!res.headersSent){
+        res.status(400);
+        res.send("Recurso no disponible");
+    }
 
+});
+
+https.createServer({
+    key: fs.readFileSync('certificates/alice.key'),
+    cert: fs.readFileSync('certificates/alice.crt')
+}, app).listen(app.get('port'), function() {
+    console.log("Servidor activo");
 });
