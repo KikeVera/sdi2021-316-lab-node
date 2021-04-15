@@ -172,6 +172,21 @@ module.exports = function(app,swig,gestorBD) {
         }
     };
 
+    app.get('/cancion/comprar/:id', function (req, res) {
+        let cancionId = gestorBD.mongo.ObjectID(req.params.id);
+        let compra = {
+            usuario : req.session.usuario,
+            cancionId : cancionId
+        }
+        gestorBD.insertarCompra(compra ,function(idCompra){
+            if ( idCompra == null ){
+                res.send(respuesta);
+            } else {
+                res.redirect("/compras");
+            }
+        });
+    });
+
 
 
 
@@ -232,6 +247,39 @@ module.exports = function(app,swig,gestorBD) {
             }
         });
     });
+
+    app.get('/compras',function(req,res){
+        let criterio={"usuario":req.session.usuario};
+        gestorBD.obtenerCompras(criterio,function(compras){
+            if(compras==null){
+                res.send("Error al listar")
+            }
+
+            else{
+                let cancionesCompradasIds=[];
+                for(i=0;i<compras.length;i++){
+                    cancionesCompradasIds.push(compras[i].cancionId);
+                }
+
+                let criterio ={"_id" : {$in:cancionesCompradasIds}}
+                gestorBD.obtenerCanciones(criterio,function (canciones){
+                    let respuesta=swig.renderFile('views/bcompras.html',
+                        {
+                            canciones:canciones
+                        }
+
+                    );
+                    res.send(respuesta);
+
+                });
+
+            }
+
+
+        });
+
+
+    })
 
     app.get('/promo*', function (req, res) {
         res.send('Respuesta patrón promo* ');
