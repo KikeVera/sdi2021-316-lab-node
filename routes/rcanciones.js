@@ -96,7 +96,7 @@ module.exports = function(app,swig,gestorBD) {
                 res.send(respuesta);
 
             } else {
-                console.log("aqui");
+
                 let respuesta = swig.renderFile('views/bcancionModificar.html',
                     {
                         cancion : canciones[0]
@@ -178,13 +178,34 @@ module.exports = function(app,swig,gestorBD) {
             usuario : req.session.usuario,
             cancionId : cancionId
         }
-        gestorBD.insertarCompra(compra ,function(idCompra){
-            if ( idCompra == null ){
-                res.send(respuesta);
-            } else {
-                res.redirect("/compras");
-            }
+        let criterio = { "_id" : gestorBD.mongo.ObjectID(req.params.id) };
+        let criterioCompras={"usuario": req.session.usuario,"cancionId": gestorBD.mongo.ObjectID(req.params.id) };
+
+        gestorBD.obtenerCompras(criterioCompras,function(compras){
+            gestorBD.obtenerCanciones(criterio,function(canciones){
+                if ( canciones == null ){
+                    res.send("Error al recuperar la canción.");
+                } else {
+
+                    if ( compras.length == 0 && canciones[0].autor!=req.session.usuario  ) {
+                        gestorBD.insertarCompra(compra ,function(idCompra){
+                            if ( idCompra == null ){
+                                res.send(respuesta);
+                            } else {
+                                res.redirect("/compras");
+                            }
+                        });
+
+                    }
+
+                    else{
+                        res.redirect("/tienda");
+                    }
+                }
+            });
+
         });
+
     });
 
 
@@ -249,24 +270,47 @@ module.exports = function(app,swig,gestorBD) {
     app.get('/cancion/:id', function (req, res) {
         let criterio = { "_id" : gestorBD.mongo.ObjectID(req.params.id) };
         let criterioCancion= {"cancion_id": gestorBD.mongo.ObjectID(req.params.id)   };
-        gestorBD.obtenerCanciones(criterio,function(canciones){
-            if ( canciones == null ){
-                res.send("Error al recuperar la canción.");
-            } else {
-                gestorBD.obtenerComentarios(criterioCancion,function(comentarios){
-
-                    let respuesta = swig.renderFile('views/bcancion.html',
-                        {
-                            cancion : canciones[0],
-                            comentarios:comentarios
-                        });
-                    res.send(respuesta);
-
-                });
+        let criterioCompras={"usuario": req.session.usuario,"cancionId": gestorBD.mongo.ObjectID(req.params.id) };
 
 
-            }
+        gestorBD.obtenerCompras(criterioCompras,function(compras){
+            gestorBD.obtenerCanciones(criterio,function(canciones){
+                if ( canciones == null ){
+                    res.send("Error al recuperar la canción.");
+                } else {
+                    gestorBD.obtenerComentarios(criterioCancion,function(comentarios){
+                        console.log(compras);
+                        let respuesta;
+                        if ( compras.length == 0 && canciones[0].autor!=req.session.usuario  ) {
+                             respuesta = swig.renderFile('views/bcancion.html',
+                                {
+                                    obtained:false,
+                                    cancion: canciones[0],
+                                    comentarios: comentarios
+                                });
+                        }
+                        else{
+                            respuesta = swig.renderFile('views/bcancion.html',
+                                {
+                                    obtained:true,
+                                    cancion: canciones[0],
+                                    comentarios: comentarios
+                                });
+
+                        }
+
+                        res.send(respuesta);
+
+                    });
+
+
+                }
+            });
+
+
         });
+
+
     });
 
     app.get('/compras',function(req,res){
