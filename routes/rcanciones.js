@@ -61,19 +61,19 @@ module.exports = function(app,swig,gestorBD) {
         // Conectarse
         gestorBD.insertarCancion(cancion, function(id){
             if (id == null) {
-                res.send("Error al insertar canción");
+                res.redirect("/error?mensaje=Error al insertar la canción&tipoMensaje=alert-danger");
             } else {
                 if (req.files.portada != null) {
                     var imagen = req.files.portada;
                     imagen.mv('public/portadas/' + id + '.png', function(err) {
                         if (err) {
-                            res.send("Error al subir la portada");
+                            res.redirect("/error?mensaje=Error al subir la portada&tipoMensaje=alert-danger");
                         } else {
                             if (req.files.audio != null) {
                                 let audio = req.files.audio;
                                 audio.mv('public/audios/'+id+'.mp3', function(err) {
                                     if (err) {
-                                        res.send("Error al subir el audio");
+                                        res.redirect("/error?mensaje=Error al subir el audio&tipoMensaje=alert-danger");
                                     } else {
                                         res.redirect('/publicaciones');
                                     }
@@ -93,7 +93,7 @@ module.exports = function(app,swig,gestorBD) {
 
         gestorBD.obtenerCanciones(criterio,function(canciones){
             if ( canciones == null ){
-                res.send(respuesta);
+                res.redirect("/error?mensaje=No se ha podido obtener la canción&tipoMensaje=alert-danger");
 
             } else {
 
@@ -118,11 +118,11 @@ module.exports = function(app,swig,gestorBD) {
         }
         gestorBD.modificarCancion(criterio, cancion, function(result) {
             if (result == null) {
-                res.send("Error al modificar ");
+                res.redirect("/error?mensaje=Error al modificar&tipoMensaje=alert-danger");
             } else {
                 paso1ModificarPortada(req.files, id, function (result) {
                     if( result == null){
-                        res.send("Error en la modificación");
+                        res.redirect("/error?mensaje=Error en la modificación&tipoMensaje=alert-danger");
                     } else {
                         res.redirect('/publicaciones');
                     }
@@ -136,7 +136,7 @@ module.exports = function(app,swig,gestorBD) {
         let criterio = {"_id" : gestorBD.mongo.ObjectID(req.params.id) };
         gestorBD.eliminarCancion(criterio,function(canciones){
             if ( canciones == null ){
-                res.send(respuesta);
+                res.redirect("/error?mensaje=Error al eliminar canción&tipoMensaje=alert-danger");
             } else {
                 res.redirect("/publicaciones");
             }
@@ -184,7 +184,7 @@ module.exports = function(app,swig,gestorBD) {
         gestorBD.obtenerCompras(criterioCompras,function(compras){
             gestorBD.obtenerCanciones(criterio,function(canciones){
                 if ( canciones == null ){
-                    res.send("Error al recuperar la canción.");
+                    res.redirect("/error?mensaje=Error al recuperar la canción&tipoMensaje=alert-danger");
                 } else {
 
                     if ( compras.length == 0 && canciones[0].autor!=req.session.usuario  ) {
@@ -224,7 +224,7 @@ module.exports = function(app,swig,gestorBD) {
         }
         gestorBD.obtenerCancionesPg(criterio, pg , function(canciones, total ) {
             if (canciones == null) {
-                res.send("Error al listar ");
+                res.redirect("/error?mensaje=Error al listar&tipoMensaje=alert-danger");
             } else {
                 let ultimaPg = total/4;
                 if (total % 4 > 0 ){ // Sobran decimales
@@ -256,7 +256,7 @@ module.exports = function(app,swig,gestorBD) {
         let criterio = { autor : req.session.usuario };
         gestorBD.obtenerCanciones(criterio, function(canciones) {
             if (canciones == null) {
-                res.send("Error al listar ");
+                res.redirect("/error?mensaje=Error al listar&tipoMensaje=alert-danger");
             } else {
                 let respuesta = swig.renderFile('views/bpublicaciones.html',
                 {
@@ -276,7 +276,7 @@ module.exports = function(app,swig,gestorBD) {
         gestorBD.obtenerCompras(criterioCompras,function(compras){
             gestorBD.obtenerCanciones(criterio,function(canciones){
                 if ( canciones == null ){
-                    res.send("Error al recuperar la canción.");
+                    res.redirect("/error?mensaje=Error recuperar la canción&tipoMensaje=alert-danger");
                 } else {
                     gestorBD.obtenerComentarios(criterioCancion,function(comentarios){
                         console.log(compras);
@@ -317,7 +317,7 @@ module.exports = function(app,swig,gestorBD) {
         let criterio={"usuario":req.session.usuario};
         gestorBD.obtenerCompras(criterio,function(compras){
             if(compras==null){
-                res.send("Error al listar")
+                es.redirect("/error?mensaje=Error al listar&tipoMensaje=alert-danger");
             }
 
             else{

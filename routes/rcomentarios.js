@@ -12,7 +12,7 @@ module.exports = function(app,swig,gestorBD) {
         // Conectarse
         gestorBD.insertarComentario(comentario, function(id){
             if (id == null) {
-                res.send("Error al insertar comentario");
+                es.redirect("/error?mensaje=Error al insertar comentario&tipoMensaje=alert-danger");
             } else {
 
                 res.redirect('/cancion/'+req.params.cancion_id);
@@ -30,12 +30,12 @@ module.exports = function(app,swig,gestorBD) {
         gestorBD.obtenerComentarios(criterio, function(comentarios){
             if (comentarios == null) {
 
-                res.send("Error al recuperar el comentario.");
+                res.redirect("/error?mensaje=Error al recuperar comentario&tipoMensaje=alert-danger");
             } else {
                 gestorBD.borrarComentario(criterio,function(id){
 
                     if ( id == null ){
-                        res.send("Error al borrar comentario");
+                        res.redirect("/error?mensaje=Error al borrar comentario&tipoMensaje=alert-danger");
                     }
 
                     else {

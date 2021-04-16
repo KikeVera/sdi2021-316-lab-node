@@ -139,9 +139,24 @@ require("./routes/rautores.js")(app,swig,gestorBD); // (app, param1, param2, etc
 require("./routes/rcomentarios.js")(app,swig,gestorBD); // (app, param1, param2, etc.)
 
 
+
 app.get('/', function (req, res) {
     res.redirect('/tienda');
 })
+
+app.get('/error', function (req, res) {
+    let mensaje = req.query.mensaje;
+    let tipoMensaje = req.query.tipoMensaje;
+
+    let respuesta = swig.renderFile('views/error.html',
+        {
+            error: mensaje,
+            tipoMensaje: tipoMensaje
+        });
+    res.send(respuesta);
+
+
+});
 
 app.use(function(err,req,res,next){
     console.log("Error producido: "+err)
@@ -151,6 +166,8 @@ app.use(function(err,req,res,next){
     }
 
 });
+
+
 
 https.createServer({
     key: fs.readFileSync('certificates/alice.key'),

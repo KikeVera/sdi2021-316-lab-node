@@ -1,0 +1,9 @@
+{% extends "base.html" %} 
+
+{% block titulo %} Detalles {{ cancion.nombre }} {% endblock %}
+
+{% block contenido_principal %}
+<h3>Error:</h3>
+<p class="{{tipoMensaje}}">{{error}}</p>
+
+{% endblock %}
