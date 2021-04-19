@@ -1,7 +1,6 @@
-﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>uoMusic</title>
+  <title>jQuery uoMusic </title>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
@@ -9,7 +8,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-
 
 <!-- Barra de Navegación superior -->
 <nav class="navbar navbar-inverse">
@@ -23,27 +21,31 @@
       <img src="/img/logo.png" alt="logo"/> 
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-        <li id="mTienda" class="active"><a href="/tienda">Tienda</a></li>
-		<li id="mPublicaciones"><a href="/publicaciones">Publicaciones</a></li>
-        <li id="mCompras"><a href="/compras">Compras</a></li>
+      <ul class="nav navbar-nav" id="barra-menu">
+        <li><a onclick=widgetCanciones()>Canciones</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-	    <li><a href="/registrarse"><span class="glyphicon glyphicon-user"></span> Registrate</a></li>
-        <li><a href="/identificarse"><span class="glyphicon glyphicon-log-in"></span> Identifícate</a></li>
+      <ul class="nav navbar-nav navbar-right" id="barra-menu-derecha">
+		<!-- Opciones de menú aqui -->
       </ul>
     </div>
   </div>
 </nav>
 
 
+<!-- Contenido -->
+<div class="container" id="contenedor-principal"> <!--  id para identificar -->
 
-<div class="container">
-
-	<!-- Contenido -->
-	
 </div>
 
+<script>
+  let token;
+  let URLbase = "https://localhost:8081/api";
+  let idCancionSeleccionada;
+  $( "#contenedor-principal" ).load( "widget-login.html");
+  function widgetCanciones(){
+    $( "#contenedor-principal" ).load( "widget-canciones.html");
+  }
+</script>
 
 </body>
 </html>
