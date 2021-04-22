@@ -5,6 +5,8 @@ let https = require('https');
 let swig = require('swig');
 let crypto = require('crypto');
 let jwt = require('jsonwebtoken');
+let rest = require('request');
+app.set('rest',rest);
 app.set('jwt',jwt);
 app.set('clave','abcdefg');
 app.set('crypto',crypto);
