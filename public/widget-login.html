@@ -1,4 +1,4 @@
-
+<script>window.history.pushState("", "", "/cliente.html?w=login");</script>
 
 <div id="widget-login">
     <div class="form-group">
@@ -37,12 +37,13 @@
 
                 console.log(respuesta.token);
                 token=respuesta.token;
+                Cookies.set('token', respuesta.token);
                 $("#contenedor-principal").load("widget-canciones.html");
 
             },
 
             error:function (error){
-
+                Cookies.remove('token');
                 $("#widget-login").prepend("<div class='alert alert-danger'>Usuario no encontrado</div>");
 
             },
