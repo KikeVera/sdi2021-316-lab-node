@@ -43,8 +43,9 @@
             },
 
             error:function (error){
+                $("p").remove(".alert-danger");
                 Cookies.remove('token');
-                $("#widget-login").prepend("<div class='alert alert-danger'>Usuario no encontrado</div>");
+                $("#widget-login").prepend("<p class='alert alert-danger'>Usuario no encontrado</p>");
 
             },
 

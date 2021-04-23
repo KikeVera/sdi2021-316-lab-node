@@ -63,8 +63,17 @@
             dataType: 'json',
             headers: { "token": token },
             success: function(respuesta) {
-                console.log("Eliminada: "+_id);
-                $( "#"+_id ).remove(); // eliminar el <tr> de la canción
+                console.log(respuesta.n);
+                $("p").remove(".alert-danger");
+                if (respuesta.n != 0 ) {
+                    console.log("Eliminada: " + _id);
+                    $("#" + _id).remove(); // eliminar el <tr> de la canción
+                }
+
+                else{
+                    $("#widget-canciones").prepend("<p class='alert alert-danger'>No se puede eliminar una canción si no eres el propietario</p>");
+                }
+
             },
             error : function (error){
                 $( "#contenedor-principal" ).load("widget-login.html");

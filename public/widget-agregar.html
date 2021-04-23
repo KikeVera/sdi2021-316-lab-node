@@ -40,8 +40,20 @@
             dataType: 'json',
             headers: { "token": token },
             success: function(respuesta) {
-                console.log(respuesta); // <-- Prueba
-                $( "#contenedor-principal" ).load( "widget-canciones.html");
+                $("p").remove(".alert-danger");
+                if(respuesta.errores.length>0){
+                    console.log(respuesta.errores);
+                    for(let i=0;i<respuesta.errores.length;i++){
+                        console.log(respuesta.errores[i]);
+                        $("#widget-agregar").prepend("<p class='alert alert-danger'>"+respuesta.errores[i]+"</p>");
+
+                    }
+                }
+
+                else {
+                    console.log(respuesta); // <-- Prueba
+                    $("#contenedor-principal").load("widget-canciones.html");
+                }
 
             },
             error : function (error){
